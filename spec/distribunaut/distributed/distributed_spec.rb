@@ -1,6 +1,4 @@
 require File.join(File.dirname(__FILE__), "..", "..", "spec_helper")
-require 'rinda/ring'
-require 'rinda/tuplespace'
 
 describe Distribunaut::Distributed do
   
@@ -26,7 +24,7 @@ describe Distribunaut::Distributed do
         "Intel"
       end
     end
-    Distribunaut::Distributed::Computer.should be_is_a(Distribunaut::Distributed::ComputerProxy)
+    Distribunaut::Distributed::Computer.should be_kind_of(Distribunaut::Distributed::ComputerProxy)
     comp = Distribunaut::Distributed::Computer.new
     comp.processor.should == "Intel"
   end
@@ -38,7 +36,8 @@ describe Distribunaut::Distributed do
   end
   
   it "should raise Distribunaut::Distributed::Errors::ApplicationNameUndefined if configatron.distribunaut.app_name is nil" do
-    temp_app_config(:mack => {:distributed => {:app_name => nil}}) do
+    configatron.temp do
+      configatron.distribunaut.app_name = nil
       lambda {
         class Mouse
           include Distribunaut::Distributable

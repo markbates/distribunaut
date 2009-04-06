@@ -5,6 +5,7 @@ require 'drb/acl'
 require 'rinda/ring'
 require 'rinda/tuplespace'
 require 'addressable/uri'
+require 'activesupport'
 
 base = File.join(File.dirname(__FILE__), 'distribunaut')
 
@@ -18,8 +19,6 @@ configatron.distribunaut.set_default(:enable_view_cache, false)
 
 # load *.rb files
 Dir.glob(File.join(base, "**", "*.rb")).each do |f|
-  load(f)
+  require(f)
 end
-
-Distribunaut::Distributed::View.register
 

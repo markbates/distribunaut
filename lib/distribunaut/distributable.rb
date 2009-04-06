@@ -62,7 +62,7 @@ module DRb # :nodoc:
       "#{_original_inspect}|#{method_missing(:inspect)}"
     end
     
-    undef :id
+    undef :id if method_defined?(:id)
     
   end
 end
