@@ -3,6 +3,7 @@ require 'cachetastic'
 require 'drb/drb'
 require 'drb/acl'
 require 'rinda/ring'
+require 'rinda/tuplespace'
 require 'addressable/uri'
 
 base = File.join(File.dirname(__FILE__), 'distribunaut')

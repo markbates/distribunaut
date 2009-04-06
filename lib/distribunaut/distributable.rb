@@ -56,7 +56,7 @@ end # Distribunaut
 module DRb # :nodoc:
   class DRbObject # :nodoc:
 
-    alias_instance_method :inspect
+    alias_method :_original_inspect, :inspect
     
     def inspect
       "#{_original_inspect}|#{method_missing(:inspect)}"

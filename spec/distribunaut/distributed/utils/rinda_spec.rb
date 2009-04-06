@@ -1,6 +1,4 @@
 require File.join(File.dirname(__FILE__), "..", "..", "..", "spec_helper")
-require 'rinda/ring'
-require 'rinda/tuplespace'
 
 describe Distribunaut::Distributed::Utils::Rinda do
   
