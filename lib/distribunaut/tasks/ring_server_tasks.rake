@@ -1,15 +1,15 @@
 require 'rinda/ring'
-namespace :mack do
+namespace :distribunaut do
   namespace :ring_server do
     
     desc "Start the Rinda ring server"
     task :start do
-      `mack_ring_server start`
+      `distribunaut_ring_server start`
     end
     
     desc "Stop the Rinda ring server"
     task :stop do
-      `mack_ring_server stop`
+      `distribunaut_ring_server stop`
     end
     
     namespace :services do
@@ -28,6 +28,6 @@ namespace :mack do
     end # services
     
   end # ring_server
-end # mack
+end # distribunaut
 
-alias_task "mack:ring_server:restart", "mack:ring_server:stop", "mack:ring_server:start"
+alias_task "distribunaut:ring_server:restart", "distribunaut:ring_server:stop", "distribunaut:ring_server:start"

@@ -1,8 +1,8 @@
 module Distribunaut # :nodoc:
   # Include this module into any class it will instantly register that class with
-  # the mack_ring_server. The class will be registered with the name of the class
-  # and the mack.distributed_app_name configured in your config/configatron/*.rb file.
-  # If the mack.distributed_app_name configuration parameter is nil it will raise
+  # the distribunaut_ring_server. The class will be registered with the name of the class
+  # and the distribunaut.distributed_app_name configured in your config/configatron/*.rb file.
+  # If the distribunaut.distributed_app_name configuration parameter is nil it will raise
   # an Distribunaut::Distributed::Errors::ApplicationNameUndefined exception.
   # 
   # Example:

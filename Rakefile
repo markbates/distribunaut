@@ -26,9 +26,10 @@ require 'spec/rake/spectask'
   s.add_dependency('configatron')
   s.add_dependency('cachetastic')
   s.add_dependency('addressable')
+  s.add_dependency('daemons')
   # s.test_files = FileList['spec/**/*']
   #s.bindir = "bin"
-  #s.executables << "distribunaut"
+  s.executables << "distribunaut_ring_server"
   #s.add_dependency("", "")
   #s.add_dependency("", "")
   #s.extensions << ""
