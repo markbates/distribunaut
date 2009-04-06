@@ -1,104 +1,43 @@
-=== Setup
+=== Example #1
 
-Using distributed functionality with Mack is incredibly easy. The first thing we need to do is start the Mack ring server.
+  # 'Server' application
+  require 'distribunaut'
 
-  distribunaut_ring_server start
-  
-That's the glue that holds everything together. The ring server acts a registry/lookup agent so applications know where to find the services they are looking for.
-
-In order to use the distributed functionality, you really need two applications. The first application will be serving the distributed object(s), routes, etc... and the second application will be using the distributed functionality. Both applications will need the distribunaut-distributed gem. In the config/initializers/gems.rb add the following to both applications:
-
-  gem.add "distribunaut-distributed", :libs => "distribunaut-distributed"
-
-== Using Distributed Objects (Models)
-
-Distributed objects are an easy way to share functionality across many different Mack applications. Whether it's a database model, or a bit of library code, it's easy to share and re-use.
-
-=== Application #1 (Server)
-
-Let's configure our 'server' application. This is where pretty much all the 'heavy lifting' is done. First we need setup our configuration file:
-
-config/configatron/default.rb:
-  # All distributed applications need to have a unique name so they can easily be identified for lookup.
-  configatron.distribunaut.distributed.app_name = 'my_cool_app'
-  configatron.distribunaut.distributed.share_objects = true
-
-Let's assume that we have a simple User DataMapper model that looks something like this:
+  configatron.distribunaut.app_name = :user_app
+  configatron.distribunaut.share_objects = true
 
   class User
-    include DataMapper::Resource
+    include Distribunaut::Distributable
 
-    property :id, Serial
-    property :username, String
-  end
+    attr_accessor :username
 
-It takes only one line of code to make that into a distributed object. We just need to include Mack::Distributable into the User class, like such:
-
-  class User
-    include Mack::Distributable
-    include DataMapper::Resource
-
-    property :id, Serial
-    property :username, String
-  end
-
-Now, start your server:
-
-  rake server
-
-=== Application #2 (Client)
-
-Here's where things get really cool. We don't have to do anything else to our second application to get it find and use our User model from the first application. When we add the distribunaut-distributed gem, we've given it all the magic it needs to run.
-
-Let's start up our console:
-
-  rake console
-
-Now, in our console we can do the following:
-
-  user = Mack::Distributed::User.new
-  user.username = "foobar"
-  user.save
-
-In the first application you'll see an insert into the users table in the logs. If you look in the database, you'll see that we've successfully created a new user.
-
-=== How does it work?
-
-When you include Mack::Distributable into a class it registers a proxy of that class with ring server. When another application makes a call to Mack::Distributed::<class_name> it looks up and finds that class in the ring server and returns the proxy object to you. 
-
-=== Using Distributed Views
-With distributed views, you can easily share views and layouts among different Mack Applications.
-  
-== Application #1 (Server)
-config/configatron/default.rb:
-  
-  configatron.distribunaut.distributed.site_domain = 'http://localhost:3001'
-  configatron.distribunaut.distributed.share_views = true
-  configatron.distribunaut.app_name = 'my_cool_app'
-
-That's it.  When the server is started, the distributed view module will register a proxy with rinda ready for use by the client.
-
-== Application #2 (Client)
-To use distributed view, you need to specify a fully qualified distributed URI in the form of:
-    distributed://app_name/path
-so, let's say I want to render a page using a layout in application 1, I'd do:
-    render(:action, "index", :layout => "distributed://my_cool_app/application")
-The above code will render the index page using application.html layout that lives in the application #1 space.
-
-You can also specify the distributed layout globally in the controller.  Example:
-
-    class MyController
-        include Mack::Controller
-        
-        layout "distributed://my_cool_app/application"
+    def self.hi
+      'hello!!!'
     end
 
-All the actions in MyController will use the distributed layout
+    def save
+      puts "Saving: #{self.inspect}"
+    end
 
-Now, to render a distributed view, you'd do the following:
+  end
 
-    render(:distributed, "distributed://my_cool_app/admin/index")
+  DRb.thread.join
+  
+  # 'Client' application
+  require 'distribunaut'
 
----------
+  puts Distribunaut::Distributed::User.hi
 
-Enjoy!
+  User = Distribunaut::Distributed::User
+
+  puts User.hi
+
+  user = User.new
+
+  puts user.inspect
+
+  user.username = 'markbates'
+
+  puts user.inspect
+
+  user.save
