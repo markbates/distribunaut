@@ -1,0 +1,59 @@
+h2. Examples
+
+h3. Example #1
+
+<pre>
+  <code>
+    # 'Server' application
+    require 'distribunaut'
+
+    configatron.distribunaut.app_name = :user_app
+    configatron.distribunaut.share_objects = true
+
+    class User
+      include Distribunaut::Distributable
+
+      attr_accessor :username
+
+      def self.hi
+        'hello!!!'
+      end
+
+      def save
+        puts "Saving: #{self.inspect}"
+      end
+
+    end
+
+    DRb.thread.join
+   </code>
+</pre>
+<pre>
+  <code>  
+  # Saving: #<User:0x18ef764 @username="markbates">
+  
+  # 'Client' application
+  require 'distribunaut'
+
+  puts Distribunaut::Distributed::User.hi
+
+  User = Distribunaut::Distributed::User
+
+  puts User.hi
+
+  user = User.new
+
+  puts user.inspect
+
+  user.username = 'markbates'
+
+  puts user.inspect
+
+  user.save
+  
+  # hello!!!
+  # hello!!!
+  # #<DRb::DRbObject:0x192e6a8 @ref=13073330, @uri="druby://192.168.1.2:56836">|#<User:0x18ef764>
+  # #<DRb::DRbObject:0x192e6a8 @ref=13073330, @uri="druby://192.168.1.2:56836">|#<User:0x18ef764 @username="markbates">
+   </code>
+</pre>
