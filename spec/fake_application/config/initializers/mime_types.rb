@@ -1,1 +1,0 @@
-Mack::Utils::MimeTypes.register(:iphone, "app/iphone")

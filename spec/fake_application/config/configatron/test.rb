@@ -1,1 +1,0 @@
-configatron.mack.run_remote_tests = false
