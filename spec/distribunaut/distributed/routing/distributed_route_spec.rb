@@ -10,9 +10,9 @@ describe "distributed_url" do
       # it's fine to ignore this, it's expected that it's already running.
       # all other exceptions should be thrown
     end
-    configatron.mack.distributed.share_routes = true
-    configatron.mack.distributed.app_name = :known_app
-    configatron.mack.distributed.site_domain = 'http://localhost:3001'
+    configatron.distribunaut.share_routes = true
+    configatron.distribunaut.app_name = :known_app
+    configatron.distribunaut.site_domain = 'http://localhost:3001'
     Distribunaut::Routes.build do |r| # force the routes to go the DRb server
       r.known "/my_known_app/my_known_url", :controller => :foo, :action => :bar
       r.known_w_opts "/my_known_app/my_known_url_w_opts/:id", :controller => :foo, :action => :bar
@@ -20,9 +20,9 @@ describe "distributed_url" do
   end
   
   after(:each) do
-    configatron.mack.distributed.share_routes = false
-    configatron.mack.distributed.app_name = nil
-    configatron.mack.distributed.site_domain = nil
+    configatron.distribunaut.share_routes = false
+    configatron.distribunaut.app_name = nil
+    configatron.distribunaut.site_domain = nil
   end
   
   it "should raise error when unknown app url is requested" do
@@ -34,14 +34,14 @@ describe "distributed_url" do
   # end
   
   it "should be able to resolve d-route url" do
-    distributed_url(:known_app, :known_url).should == "#{configatron.mack.distributed.site_domain}/my_known_app/my_known_url"
-    distributed_url(:known_app, :known).should == "#{configatron.mack.distributed.site_domain}/my_known_app/my_known_url"
-    distributed_url(:known_app, :known_distributed_url).should == "#{configatron.mack.distributed.site_domain}/my_known_app/my_known_url"
+    distributed_url(:known_app, :known_url).should == "#{configatron.distribunaut.site_domain}/my_known_app/my_known_url"
+    distributed_url(:known_app, :known).should == "#{configatron.distribunaut.site_domain}/my_known_app/my_known_url"
+    distributed_url(:known_app, :known_distributed_url).should == "#{configatron.distribunaut.site_domain}/my_known_app/my_known_url"
   end
   
   it "should be able to resolve d-route url with options" do
     distributed_url(:known_app, :known_w_opts_url, :id => 1).should ==
-               "#{configatron.mack.distributed.site_domain}/my_known_app/my_known_url_w_opts/1"
+               "#{configatron.distribunaut.site_domain}/my_known_app/my_known_url_w_opts/1"
   end
   
   it "should raise error when registering a nil application" do

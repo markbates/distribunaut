@@ -6,7 +6,7 @@ module Distribunaut
         include Distribunaut::ViewHelpers
       
         def get(path)
-          if configatron.mack.distributed.enable_view_cache
+          if configatron.distribunaut.enable_view_cache
             raw = super(path) do
               get_raw_data(path, true)
             end 

@@ -25,6 +25,7 @@ require 'spec/rake/spectask'
   s.rubyforge_project = "distribunaut"
   s.add_dependency('configatron')
   s.add_dependency('cachetastic')
+  s.add_dependency('addressable')
   # s.test_files = FileList['spec/**/*']
   #s.bindir = "bin"
   #s.executables << "distribunaut"

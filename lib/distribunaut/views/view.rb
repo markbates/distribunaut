@@ -13,11 +13,11 @@ module Distribunaut
       
       class << self
         def register
-          if configatron.mack.distributed.share_views
-            raise Distribunaut::Distributed::Errors::ApplicationNameUndefined.new if configatron.mack.distributed.app_name.nil?
+          if configatron.distribunaut.share_views
+            raise Distribunaut::Distributed::Errors::ApplicationNameUndefined.new if configatron.distribunaut.app_name.nil?
             # Distribunaut.logger.info "Registering Distribunaut::Distributed::View for '#{app_config.mack.distributed_app_name}' with Rinda"
             
-            Distribunaut::Distributed::Utils::Rinda.register_or_renew(:space => configatron.mack.distributed.app_name.to_sym,
+            Distribunaut::Distributed::Utils::Rinda.register_or_renew(:space => configatron.distribunaut.app_name.to_sym,
                                                               :klass_def => :distributed_views, 
                                                               :object => Distribunaut::Distributed::View.instance)
           end

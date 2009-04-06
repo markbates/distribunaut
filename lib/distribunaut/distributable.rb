@@ -17,7 +17,7 @@ module Distribunaut # :nodoc:
   module Distributable
       
       def self.included(base) # :nodoc:
-        if configatron.mack.distributed.share_objects
+        if configatron.distribunaut.share_objects
           base.class_eval do
             include ::DRbUndumped
           end
@@ -43,8 +43,8 @@ module Distribunaut # :nodoc:
               # end
             end
           }
-          raise Distribunaut::Distributed::Errors::ApplicationNameUndefined.new if configatron.mack.distributed.app_name.nil?
-          Distribunaut::Distributed::Utils::Rinda.register_or_renew(:space => configatron.mack.distributed.app_name.to_sym, 
+          raise Distribunaut::Distributed::Errors::ApplicationNameUndefined.new if configatron.distribunaut.app_name.nil?
+          Distribunaut::Distributed::Utils::Rinda.register_or_renew(:space => configatron.distribunaut.app_name.to_sym, 
                                                             :klass_def => "#{base}".to_sym, 
                                                             :object => "Distribunaut::Distributed::#{base}Proxy".constantize.instance)
         end

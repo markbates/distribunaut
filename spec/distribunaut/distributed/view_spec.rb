@@ -45,7 +45,7 @@ describe "Distributed Views" do
     
     it "should be not cache layout if not told to" do
       configatron.temp do 
-        configatron.mack.distributed.enable_view_cache = false
+        configatron.distribunaut.enable_view_cache = false
         get local_animals_url
         response.body.should match(/Distributed Layout 2/)
         
@@ -62,7 +62,7 @@ describe "Distributed Views" do
     
     it "should not reload layout content if cache is enabled" do
       configatron.temp do 
-        configatron.mack.distributed.enable_view_cache = true
+        configatron.distribunaut.enable_view_cache = true
         
         get local_animals_url
         response.body.should match(/Distributed Layout 2/)

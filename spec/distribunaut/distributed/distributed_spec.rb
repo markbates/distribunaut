@@ -5,7 +5,7 @@ require 'rinda/tuplespace'
 describe Distribunaut::Distributed do
   
   before(:each) do
-    configatron.mack.distributed.share_objects = true
+    configatron.distribunaut.share_objects = true
     begin
       DRb.start_service
       Rinda::RingServer.new(Rinda::TupleSpace.new)
@@ -16,7 +16,7 @@ describe Distribunaut::Distributed do
   end
   
   after(:each) do
-    configatron.mack.distributed.share_objects = false
+    configatron.distribunaut.share_objects = false
   end
   
   it "should recognize undefined constants and return it from rinda" do
@@ -37,7 +37,7 @@ describe Distribunaut::Distributed do
     }.should raise_error(Rinda::RequestExpiredError)
   end
   
-  it "should raise Distribunaut::Distributed::Errors::ApplicationNameUndefined if configatron.mack.distributed.app_name is nil" do
+  it "should raise Distribunaut::Distributed::Errors::ApplicationNameUndefined if configatron.distribunaut.app_name is nil" do
     temp_app_config(:mack => {:distributed => {:app_name => nil}}) do
       lambda {
         class Mouse

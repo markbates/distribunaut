@@ -17,7 +17,7 @@ module Distribunaut # :nodoc:
           route_name << "_distributed_url"
         end
         
-        if !configatron.mack.distributed.app_name.nil? && app_name.to_sym == configatron.mack.distributed.app_name.to_sym
+        if !configatron.distribunaut.app_name.nil? && app_name.to_sym == configatron.distribunaut.app_name.to_sym
           # if it's local let's just use it and not go out to Rinda
           return self.send(route_name, options)
         end

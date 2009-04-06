@@ -4,4 +4,4 @@ require 'spec'
 require 'rake'
 require 'fileutils'
 
-require Pathname(__FILE__).dirname.parent.expand_path + 'lib/mack-distributed'
+require File.join(File.dirname(__FILE__), '..', 'lib', 'distribunaut')

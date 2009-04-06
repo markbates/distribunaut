@@ -23,8 +23,8 @@ module Distribunaut
         end
         
         def self.ring_server
-          if configatron.mack.distributed.retrieve(:acl, nil)
-            acl = ACL.new(configatron.mack.distributed.acl)
+          if configatron.distribunaut.retrieve(:acl, nil)
+            acl = ACL.new(configatron.distribunaut.acl)
             DRb.install_acl(acl)
           end
           ::DRb.start_service
@@ -39,7 +39,7 @@ module Distribunaut
         
         private
         def self.handle_options(options = {})
-          {:space => nil, :klass_def => nil, :object => nil, :description => nil, :timeout => configatron.mack.distributed.timeout}.merge(options)
+          {:space => nil, :klass_def => nil, :object => nil, :description => nil, :timeout => configatron.distribunaut.timeout}.merge(options)
         end
         
       end

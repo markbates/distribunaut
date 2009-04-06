@@ -5,7 +5,7 @@ require 'rinda/tuplespace'
 describe Distribunaut::Distributable do
 
   before(:each) do
-    configatron.mack.distributed.share_objects = true
+    configatron.distribunaut.share_objects = true
     begin
       DRb.start_service
       Rinda::RingServer.new(Rinda::TupleSpace.new)
@@ -16,7 +16,7 @@ describe Distribunaut::Distributable do
   end
   
   after(:each) do
-    configatron.mack.distributed.share_objects = false
+    configatron.distribunaut.share_objects = false
   end
 
   it "should include DRbUndumped" do
