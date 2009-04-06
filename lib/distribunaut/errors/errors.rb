@@ -1,4 +1,4 @@
-module Mack
+module Distribunaut
   module Distributed # :nodoc:
     module Errors # :nodoc:
       
@@ -30,4 +30,4 @@ module Mack
       end      
     end # Errors
   end # Distributed
-end # Mack
+end # Distribunaut

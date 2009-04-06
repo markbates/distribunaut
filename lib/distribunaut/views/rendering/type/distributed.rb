@@ -1,7 +1,7 @@
-module Mack
+module Distribunaut
   module Rendering
     module Type
-      class Distributed < Mack::Rendering::Type::Base
+      class Distributed < Distribunaut::Rendering::Type::Base
 
         # render(:distributed, "distributed://host/resource")
         def render
@@ -11,10 +11,10 @@ module Mack
             app_name = uri.host
             resource = File.join("app", "views", uri.path)
             
-            data = Mack::Distributed::View.ref(app_name)
+            data = Distribunaut::Distributed::View.ref(app_name)
             if data
               raw = ""
-              Mack::Rendering::Engine::Registry.engines[:distributed].each do |e|
+              Distribunaut::Rendering::Engine::Registry.engines[:distributed].each do |e|
                 @engine = find_engine(e).new(self.view_template)
 
                 view_path = "#{resource}.#{self._options[:format]}.#{@engine.extension}"
@@ -22,11 +22,11 @@ module Mack
                 break if !raw.nil?
               end
               
-              raise Mack::Errors::ResourceNotFound.new("#{self._options[:distributed]}") if raw.nil?
+              raise Distribunaut::Errors::ResourceNotFound.new("#{self._options[:distributed]}") if raw.nil?
               
               old_render_value = self.view_template._render_value.dup
               self.view_template._render_value = raw
-              Mack::Rendering::Type::Inline.new(self.view_template).render
+              Distribunaut::Rendering::Type::Inline.new(self.view_template).render
               # self.view_template.render_value = old_render_value
             end
         end
@@ -35,5 +35,5 @@ module Mack
   end
 end
 
-Mack::Rendering::Engine::Registry.register(:distributed, :builder)
-Mack::Rendering::Engine::Registry.register(:distributed, :erubis)
+Distribunaut::Rendering::Engine::Registry.register(:distributed, :builder)
+Distribunaut::Rendering::Engine::Registry.register(:distributed, :erubis)

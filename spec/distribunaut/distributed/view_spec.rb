@@ -11,9 +11,9 @@ describe "Distributed Views" do
       # all other exceptions should be thrown
     end
     
-    Mack::Distributed::Utils::Rinda.register_or_renew(:space => :foo_server,
+    Distribunaut::Distributed::Utils::Rinda.register_or_renew(:space => :foo_server,
                                                       :klass_def => :distributed_views, 
-                                                      :object => Mack::Distributed::View.instance)
+                                                      :object => Distribunaut::Distributed::View.instance)
   end
   
   describe "Layout" do
@@ -49,7 +49,7 @@ describe "Distributed Views" do
         get local_animals_url
         response.body.should match(/Distributed Layout 2/)
         
-        path = Mack::Paths.layouts("server_layout2.html.erb")
+        path = Distribunaut::Paths.layouts("server_layout2.html.erb")
         old_data = File.read(path)
         new_data = old_data.gsub("Distributed Layout 2!", "Hey! I've just changed the layout!")
         File.open(path, "w") { |f| f.write(new_data) }
@@ -67,7 +67,7 @@ describe "Distributed Views" do
         get local_animals_url
         response.body.should match(/Distributed Layout 2/)
         
-        path = Mack::Paths.layouts("server_layout2.html.erb")
+        path = Distribunaut::Paths.layouts("server_layout2.html.erb")
         old_data = File.read(path)
         new_data = old_data.gsub("Distributed Layout 2!", "Hey! I've just changed the layout!")
         File.open(path, "w") { |f| f.write(new_data) }

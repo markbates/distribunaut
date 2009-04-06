@@ -1,9 +1,9 @@
-module Mack
+module Distribunaut
   module Distributed
     class ViewCache < Cachetastic::Caches::Base
       
       class << self
-        include Mack::ViewHelpers
+        include Distribunaut::ViewHelpers
       
         def get(path)
           if configatron.mack.distributed.enable_view_cache
@@ -39,4 +39,4 @@ module Mack
       
     end # ViewCache
   end # Distributed
-end # Mack
+end # Distribunaut

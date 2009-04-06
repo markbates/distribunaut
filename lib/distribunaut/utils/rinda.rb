@@ -1,4 +1,4 @@
-module Mack
+module Distribunaut
   module Distributed
     module Utils # :nodoc:
       module Rinda
@@ -8,7 +8,7 @@ module Mack
           begin
             ring_server.take([options[:space], options[:klass_def], nil, nil], options[:timeout])
           rescue Exception => e
-            # Mack.logger.error(e)
+            # Distribunaut.logger.error(e)
           end
           register(options)
         end

@@ -1,19 +1,19 @@
-module Mack # :nodoc:
+module Distribunaut # :nodoc:
   # Include this module into any class it will instantly register that class with
   # the mack_ring_server. The class will be registered with the name of the class
   # and the mack.distributed_app_name configured in your config/configatron/*.rb file.
   # If the mack.distributed_app_name configuration parameter is nil it will raise
-  # an Mack::Distributed::Errors::ApplicationNameUndefined exception.
+  # an Distribunaut::Distributed::Errors::ApplicationNameUndefined exception.
   # 
   # Example:
   #  class User
-  #    include Mack::Distributable
+  #    include Distribunaut::Distributable
   #    def name
   #      "mark"
   #    end
   #  end
   # 
-  #  Mack::Distributed::User.new.name # => "mark"
+  #  Distribunaut::Distributed::User.new.name # => "mark"
   module Distributable
       
       def self.included(base) # :nodoc:
@@ -22,7 +22,7 @@ module Mack # :nodoc:
             include ::DRbUndumped
           end
           eval %{
-            class ::Mack::Distributed::#{base}Proxy
+            class ::Distribunaut::Distributed::#{base}Proxy
               include Singleton
               include DRbUndumped
 
@@ -43,15 +43,15 @@ module Mack # :nodoc:
               # end
             end
           }
-          raise Mack::Distributed::Errors::ApplicationNameUndefined.new if configatron.mack.distributed.app_name.nil?
-          Mack::Distributed::Utils::Rinda.register_or_renew(:space => configatron.mack.distributed.app_name.to_sym, 
+          raise Distribunaut::Distributed::Errors::ApplicationNameUndefined.new if configatron.mack.distributed.app_name.nil?
+          Distribunaut::Distributed::Utils::Rinda.register_or_renew(:space => configatron.mack.distributed.app_name.to_sym, 
                                                             :klass_def => "#{base}".to_sym, 
-                                                            :object => "Mack::Distributed::#{base}Proxy".constantize.instance)
+                                                            :object => "Distribunaut::Distributed::#{base}Proxy".constantize.instance)
         end
       end
       
   end # Distributable
-end # Mack
+end # Distribunaut
 
 module DRb # :nodoc:
   class DRbObject # :nodoc:

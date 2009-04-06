@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), "..", "..", "spec_helper")
 require 'rinda/ring'
 require 'rinda/tuplespace'
 
-describe Mack::Distributable do
+describe Distribunaut::Distributable do
 
   before(:each) do
     configatron.mack.distributed.share_objects = true
@@ -21,25 +21,25 @@ describe Mack::Distributable do
 
   it "should include DRbUndumped" do
     class Pool
-      include Mack::Distributable
+      include Distribunaut::Distributable
     end
     Pool.new.should be_is_a(DRbUndumped)
   end
   
   it "should defined a proxy singleton" do
-    lambda{Mack::Distributed::BoatProxy}.should raise_error(Rinda::RequestExpiredError)
+    lambda{Distribunaut::Distributed::BoatProxy}.should raise_error(Rinda::RequestExpiredError)
     class Boat
-      include Mack::Distributable
+      include Distribunaut::Distributable
     end
     lambda{
-      Mack::Distributed::BoatProxy.instance.should_not be_nil
-      Mack::Distributed::BoatProxy.instance.should be_is_a(DRbUndumped)
+      Distribunaut::Distributed::BoatProxy.instance.should_not be_nil
+      Distribunaut::Distributed::BoatProxy.instance.should be_is_a(DRbUndumped)
     }.should_not raise_error(NameError)
   end
   
   it "should respond with the methods of the underlying class" do
     class Car
-      include Mack::Distributable
+      include Distribunaut::Distributable
       def make
         "Toyota"
       end
@@ -47,16 +47,16 @@ describe Mack::Distributable do
         true
       end
     end
-    car = Mack::Distributed::CarProxy.instance.new
+    car = Distribunaut::Distributed::CarProxy.instance.new
     car.should be_is_a(Car)
     car.make.should == "Toyota"
     car.respond_to?(:make).should == true
-    Mack::Distributed::CarProxy.instance.buy.should == true
+    Distribunaut::Distributed::CarProxy.instance.buy.should == true
   end
   
   it "should reference the original objects inspect method" do
     class Bike
-      include Mack::Distributable
+      include Distribunaut::Distributable
       def inspect
         "<BikeClass>"
       end
@@ -64,7 +64,7 @@ describe Mack::Distributable do
         "i'm a bike"
       end
     end
-    c = Mack::Distributed::Utils::Rinda.read(:klass_def => :Bike)
+    c = Distribunaut::Distributed::Utils::Rinda.read(:klass_def => :Bike)
     c.inspect.should match(/Bike/)
     c.new.to_s.should match(/i'm a bike/)
   end

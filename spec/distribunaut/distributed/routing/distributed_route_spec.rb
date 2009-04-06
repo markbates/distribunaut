@@ -13,7 +13,7 @@ describe "distributed_url" do
     configatron.mack.distributed.share_routes = true
     configatron.mack.distributed.app_name = :known_app
     configatron.mack.distributed.site_domain = 'http://localhost:3001'
-    Mack::Routes.build do |r| # force the routes to go the DRb server
+    Distribunaut::Routes.build do |r| # force the routes to go the DRb server
       r.known "/my_known_app/my_known_url", :controller => :foo, :action => :bar
       r.known_w_opts "/my_known_app/my_known_url_w_opts/:id", :controller => :foo, :action => :bar
     end
@@ -30,7 +30,7 @@ describe "distributed_url" do
   end
   
   # it "should raise error when unknown named route is requested" do
-  #   lambda { distributed_url(:unknown_app, :unknown_url) }.should raise_error(Mack::Distributed::Errors::UnknownRouteName)
+  #   lambda { distributed_url(:unknown_app, :unknown_url) }.should raise_error(Distribunaut::Distributed::Errors::UnknownRouteName)
   # end
   
   it "should be able to resolve d-route url" do
@@ -46,7 +46,7 @@ describe "distributed_url" do
   
   it "should raise error when registering a nil application" do
     temp_app_config(:mack => {:distributed => {:app_name => nil}}) do
-      lambda { Mack::Routes.build {|r|} }.should raise_error(Mack::Distributed::Errors::ApplicationNameUndefined)
+      lambda { Distribunaut::Routes.build {|r|} }.should raise_error(Distribunaut::Distributed::Errors::ApplicationNameUndefined)
     end
   end
   

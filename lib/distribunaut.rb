@@ -23,5 +23,5 @@ Dir.glob(File.join(base, "**", "*.rb")).each do |f|
   load(f)
 end
 
-Mack::Distributed::View.register
+Distribunaut::Distributed::View.register
 

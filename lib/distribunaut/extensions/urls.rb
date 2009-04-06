@@ -1,4 +1,4 @@
-module Mack # :nodoc:
+module Distribunaut # :nodoc:
   module Routes # :nodoc:
     module Urls
 
@@ -21,11 +21,11 @@ module Mack # :nodoc:
           # if it's local let's just use it and not go out to Rinda
           return self.send(route_name, options)
         end
-        d_urls = Mack::Distributed::Routes::Urls.get(app_name)
-        raise Mack::Distributed::Errors::UnknownRouteName.new(app_name, route_name) unless d_urls.respond_to?(route_name)
+        d_urls = Distribunaut::Distributed::Routes::Urls.get(app_name)
+        raise Distribunaut::Distributed::Errors::UnknownRouteName.new(app_name, route_name) unless d_urls.respond_to?(route_name)
         return d_urls.run(route_name, options)
       end # distributed_url
       
     end # Urls
   end # Routes
-end # Mack
+end # Distribunaut

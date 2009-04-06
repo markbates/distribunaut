@@ -1,4 +1,4 @@
-module Mack
+module Distribunaut
   module Rendering # :nodoc:
     module Type # :nodoc:
       class Layout
@@ -16,10 +16,10 @@ module Mack
             app_name = uri.host
             resource = File.join("app", "views", "layouts", uri.path)
 
-            data = Mack::Distributed::View.ref(app_name)
+            data = Distribunaut::Distributed::View.ref(app_name)
             if data
               raw = ""
-              Mack::Rendering::Engine::Registry.engines[:layout].each do |e|
+              Distribunaut::Rendering::Engine::Registry.engines[:layout].each do |e|
                 @engine = find_engine(e).new(self.view_template)
 
                 layout_path = "#{resource}.#{self._options[:format]}.#{@engine.extension}"
@@ -27,11 +27,11 @@ module Mack
                 break if !raw.nil?
               end
 
-              raise Mack::Errors::ResourceNotFound.new("#{self._options[:distributed]}") if raw.nil?
+              raise Distribunaut::Errors::ResourceNotFound.new("#{self._options[:distributed]}") if raw.nil?
 
               old_render_value = self.view_template._render_value.dup
               self.view_template._render_value = raw
-              Mack::Rendering::Type::Inline.new(self.view_template).render
+              Distribunaut::Rendering::Type::Inline.new(self.view_template).render
             end
           end
         end # render
@@ -39,4 +39,4 @@ module Mack
       end # Layout
     end # Type
   end # Rendering
-end # Mack
+end # Distribunaut
