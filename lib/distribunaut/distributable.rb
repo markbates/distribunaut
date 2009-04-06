@@ -38,9 +38,6 @@ module Distribunaut # :nodoc:
                 #{base}.to_s
               end
             
-              # def respond_to?(sym)
-              #   #{base}.respond_to?(sym)
-              # end
             end
           }
           raise Distribunaut::Distributed::Errors::ApplicationNameUndefined.new if configatron.distribunaut.app_name.nil?
@@ -56,7 +53,7 @@ end # Distribunaut
 module DRb # :nodoc:
   class DRbObject # :nodoc:
 
-    alias_method :_original_inspect, :inspect
+    alias_method :_original_inspect, :inspect unless method_defined?(:_original_inspect)
     
     def inspect
       "#{_original_inspect}|#{method_missing(:inspect)}"

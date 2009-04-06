@@ -24,6 +24,7 @@ describe Distribunaut::Distributed do
         "Intel"
       end
     end
+    puts Distribunaut::Distributed::Computer.class.inspect
     Distribunaut::Distributed::Computer.should be_kind_of(Distribunaut::Distributed::ComputerProxy)
     comp = Distribunaut::Distributed::Computer.new
     comp.processor.should == "Intel"
