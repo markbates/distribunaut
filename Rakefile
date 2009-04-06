@@ -12,15 +12,15 @@ require 'spec/rake/spectask'
 
 @gem_spec = Gem::Specification.new do |s|
   s.name = "distribunaut"
-  s.version = "0.0.1"
+  s.version = "0.0.2"
   s.summary = "distribunaut"
   s.description = "distribunaut was developed by: markbates"
   s.author = "markbates"
-  s.email = ""
-  s.homepage = ""
-  s.files = FileList['lib/**/*.*', 'README', 'doc/**/*.*', 'bin/**/*.*']
+  s.email = "mark@mackframework.com"
+  s.homepage = "http://www.mackframework.com"
+  s.files = FileList['lib/**/*.*', 'doc/**/*.*', 'bin/**/*.*']
   s.require_paths = ['lib']
-  s.extra_rdoc_files = ["README"]
+  # s.extra_rdoc_files = ["README"]
   s.has_rdoc = true
   s.rubyforge_project = "distribunaut"
   s.add_dependency('configatron')

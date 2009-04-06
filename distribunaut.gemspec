@@ -2,19 +2,18 @@
 
 Gem::Specification.new do |s|
   s.name = %q{distribunaut}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["markbates"]
   s.date = %q{2009-04-05}
   s.default_executable = %q{distribunaut_ring_server}
   s.description = %q{distribunaut was developed by: markbates}
-  s.email = %q{}
+  s.email = %q{mark@mackframework.com}
   s.executables = ["distribunaut_ring_server"]
-  s.extra_rdoc_files = ["README"]
-  s.files = ["lib/distribunaut/distributable.rb", "lib/distribunaut/distributed.rb", "lib/distribunaut/errors/errors.rb", "lib/distribunaut/tasks/ring_server_tasks.rake", "lib/distribunaut/utils/rinda.rb", "lib/distribunaut.rb", "lib/distribunaut_tasks.rb", "README", "bin/distribunaut_ring_server"]
+  s.files = ["lib/distribunaut/distributable.rb", "lib/distribunaut/distributed.rb", "lib/distribunaut/errors/errors.rb", "lib/distribunaut/tasks/ring_server_tasks.rake", "lib/distribunaut/utils/rinda.rb", "lib/distribunaut.rb", "lib/distribunaut_tasks.rb", "bin/distribunaut_ring_server"]
   s.has_rdoc = true
-  s.homepage = %q{}
+  s.homepage = %q{http://www.mackframework.com}
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{distribunaut}
   s.rubygems_version = %q{1.3.1}
