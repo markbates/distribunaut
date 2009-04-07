@@ -7,8 +7,8 @@ module Distribunaut
           options = handle_options(options)
           begin
             ring_server.take([options[:app_name], options[:space], nil, nil], options[:timeout])
-          rescue Exception => e
-            # Distribunaut.logger.error(e)
+          rescue ::Rinda::RequestExpiredError => e
+            # it's ok that it expired. It could be that it was never registered.
           end
           register(options)
         end
