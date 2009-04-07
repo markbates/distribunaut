@@ -2,23 +2,19 @@ module Distribunaut
   module Utils # :nodoc:
     module Rinda
       
-      def self.register_or_renew(options = {})
-        options = handle_options(options)
+      def self.register_or_renew(values = {})
+        tuple = build_tuple(values)
         begin
-          ring_server.take([options[:app_name], options[:space], nil, nil], options[:timeout])
+          ring_server.take(tuple.to_search_array, tuple.timeout)
         rescue ::Rinda::RequestExpiredError => e
           # it's ok that it expired. It could be that it was never registered.
         end
-        register(options)
+        register(values)
       end
       
-      def self.register(options = {})
-        options = handle_options(options)
-        ring_server.write([options[:app_name], 
-                           options[:space], 
-                           options[:object], 
-                           options[:description]], 
-                          ::Rinda::SimpleRenewer.new)
+      def self.register(values = {})
+        tuple = build_tuple(values)
+        ring_server.write(tuple.to_array, ::Rinda::SimpleRenewer.new)
       end
       
       def self.ring_server
@@ -31,19 +27,17 @@ module Distribunaut
         rs
       end
       
-      def self.read(options = {})
-        options = handle_options(options)
-        ring_server.read([options[:app_name], options[:space], nil, options[:description]], options[:timeout])[2]
+      def self.read(values = {})
+        tuple = build_tuple(values)
+        results = ring_server.read(tuple.to_array, tuple.timeout)
+        tuple = Distribunaut::Tuple.from_array(results)
+        tuple.object
       end
       
       private
-      def self.handle_options(options = {})
-        {:app_name => nil, 
-         :space => nil, 
-         :object => nil, 
-         :description => nil, 
-         :timeout => configatron.distribunaut.timeout
-        }.merge(options)
+      def self.build_tuple(values = {})
+        return values if values.is_a?(Distribunaut::Tuple)
+        Distribunaut::Tuple.new({:timeout => configatron.distribunaut.timeout}.merge(values))
       end
       
     end
