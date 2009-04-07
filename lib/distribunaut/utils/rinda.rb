@@ -39,8 +39,7 @@ module Distribunaut
         
         private
         def self.handle_options(options = {})
-          raise Distribunaut::Distributed::Errors::ApplicationNameUndefined.new if configatron.distribunaut.app_name.nil?
-          {:app_name => configatron.distribunaut.app_name, 
+          {:app_name => nil, 
            :space => nil, 
            :object => nil, 
            :description => nil, 

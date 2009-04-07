@@ -40,25 +40,13 @@ module Distribunaut # :nodoc:
             
             end
           }
-          obj = "Distribunaut::Distributed::#{base}Proxy".constantize.instance
+          obj = "Distribunaut::Distributed::#{base}Proxy".constantize.instance 
+          raise Distribunaut::Distributed::Errors::ApplicationNameUndefined.new if configatron.distribunaut.app_name.nil?
           Distribunaut::Distributed::Utils::Rinda.register_or_renew(:space => "#{base}".to_sym, 
-                                                  :object => obj)
+                                                                    :object => obj,
+                                                                    :app_name => configatron.distribunaut.app_name)
         end
       end
       
   end # Distributable
 end # Distribunaut
-
-module DRb # :nodoc:
-  class DRbObject # :nodoc:
-
-    alias_method :_original_inspect, :inspect unless method_defined?(:_original_inspect)
-    
-    def inspect
-      "#{_original_inspect}|#{method_missing(:inspect)}"
-    end
-    
-    undef :id if method_defined?(:id)
-    
-  end
-end

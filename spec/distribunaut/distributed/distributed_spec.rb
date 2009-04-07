@@ -18,16 +18,19 @@ describe Distribunaut::Distributed do
   end
   
   it "should recognize undefined constants and return it from rinda" do
-    class Computer
-      include Distribunaut::Distributable
-      def processor
-        "Intel"
+    configatron.temp do
+      configatron.distribunaut.app_name = :testing_app
+      class Computer
+        include Distribunaut::Distributable
+        def processor
+          "Intel"
+        end
       end
+      puts Distribunaut::Distributed::Computer.class.inspect
+      Distribunaut::Distributed::Computer.should be_kind_of(Distribunaut::Distributed::ComputerProxy)
+      comp = Distribunaut::Distributed::Computer.new
+      comp.processor.should == "Intel"
     end
-    puts Distribunaut::Distributed::Computer.class.inspect
-    Distribunaut::Distributed::Computer.should be_kind_of(Distribunaut::Distributed::ComputerProxy)
-    comp = Distribunaut::Distributed::Computer.new
-    comp.processor.should == "Intel"
   end
   
   it "should recognize undefined constants and raise an error if it's not found in rinda" do
@@ -37,14 +40,11 @@ describe Distribunaut::Distributed do
   end
   
   it "should raise Distribunaut::Distributed::Errors::ApplicationNameUndefined if configatron.distribunaut.app_name is nil" do
-    configatron.temp do
-      configatron.distribunaut.app_name = nil
-      lambda {
-        class Mouse
-          include Distribunaut::Distributable
-        end
-      }.should raise_error(Distribunaut::Distributed::Errors::ApplicationNameUndefined)
-    end
+    lambda {
+      class Mouse
+        include Distribunaut::Distributable
+      end
+    }.should raise_error(Distribunaut::Distributed::Errors::ApplicationNameUndefined)
   end
   
   describe "lookup" do

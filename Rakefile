@@ -12,7 +12,7 @@ require 'spec/rake/spectask'
 
 @gem_spec = Gem::Specification.new do |s|
   s.name = "distribunaut"
-  s.version = "0.0.2.20090406"
+  s.version = "0.1.20090406"
   s.summary = "distribunaut"
   s.description = "distribunaut was developed by: markbates"
   s.author = "markbates"

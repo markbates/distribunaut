@@ -6,6 +6,7 @@ describe Distribunaut::Distributable do
 
   before(:each) do
     configatron.distribunaut.share_objects = true
+    configatron.distribunaut.app_name = :testing_app
     begin
       DRb.start_service
       Rinda::RingServer.new(Rinda::TupleSpace.new)
@@ -16,6 +17,7 @@ describe Distribunaut::Distributable do
   end
   
   after(:each) do
+    configatron.distribunaut.app_name = nil
     configatron.distribunaut.share_objects = false
   end
 
