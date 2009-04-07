@@ -50,8 +50,8 @@ describe Distribunaut::Distributed do
   describe "lookup" do
     
     it "should look up and return a specific service from rinda" do
-      Distribunaut::Distributed::Utils::Rinda.register_or_renew(:space => :app_1, :klass_def => :Test, :object => "Hello World!")
-      Distribunaut::Distributed::Utils::Rinda.register_or_renew(:space => :app_2, :klass_def => :Test, :object => "Hello WORLD!")
+      Distribunaut::Distributed::Utils::Rinda.register_or_renew(:app_name => :app_1, :space => :Test, :object => "Hello World!")
+      Distribunaut::Distributed::Utils::Rinda.register_or_renew(:app_name => :app_2, :space => :Test, :object => "Hello WORLD!")
       Distribunaut::Distributed.lookup("distributed://app_1/Test").should == "Hello World!"
       Distribunaut::Distributed.lookup("distributed://app_2/Test").should == "Hello WORLD!"
     end

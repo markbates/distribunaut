@@ -64,7 +64,7 @@ describe Distribunaut::Distributable do
         "i'm a bike"
       end
     end
-    c = Distribunaut::Distributed::Utils::Rinda.read(:klass_def => :Bike)
+    c = Distribunaut::Distributed::Utils::Rinda.read(:space => :Bike)
     c.inspect.should match(/Bike/)
     c.new.to_s.should match(/i'm a bike/)
   end

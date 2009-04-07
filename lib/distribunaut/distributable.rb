@@ -40,10 +40,9 @@ module Distribunaut # :nodoc:
             
             end
           }
-          raise Distribunaut::Distributed::Errors::ApplicationNameUndefined.new if configatron.distribunaut.app_name.nil?
-          Distribunaut::Distributed::Utils::Rinda.register_or_renew(:space => configatron.distribunaut.app_name.to_sym, 
-                                                            :klass_def => "#{base}".to_sym, 
-                                                            :object => "Distribunaut::Distributed::#{base}Proxy".constantize.instance)
+          obj = "Distribunaut::Distributed::#{base}Proxy".constantize.instance
+          Distribunaut::Distributed::Utils::Rinda.register_or_renew(:space => "#{base}".to_sym, 
+                                                  :object => obj)
         end
       end
       
