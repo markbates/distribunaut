@@ -1,5 +1,4 @@
 require 'configatron'
-require 'cachetastic'
 require 'drb/drb'
 require 'drb/acl'
 require 'rinda/ring'

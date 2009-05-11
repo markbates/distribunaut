@@ -23,9 +23,10 @@ require 'spec/rake/spectask'
   # s.extra_rdoc_files = ["README"]
   s.has_rdoc = true
   s.rubyforge_project = "distribunaut"
-  s.add_dependency('configatron')
-  s.add_dependency('addressable')
-  s.add_dependency('daemons')
+  s.add_dependency('configatron', '>=2.3.0')
+  s.add_dependency('addressable', '>=2.0.0')
+  s.add_dependency('daemons', '>=1.0.10')
+  s.add_dependency('activesupport', '>=2.3.0')
   # s.test_files = FileList['spec/**/*']
   #s.bindir = "bin"
   s.executables << "distribunaut_ring_server"
