@@ -17,35 +17,34 @@ module Distribunaut # :nodoc:
   module Distributable
       
       def self.included(base) # :nodoc:
-        if configatron.distribunaut.share_objects
-          base.class_eval do
-            include ::DRbUndumped
-          end
-          eval %{
-            class ::Distribunaut::Distributed::#{base}Proxy
-              include Singleton
-              include DRbUndumped
-
-              def method_missing(sym, *args)
-                #{base}.send(sym, *args)
-              end
-              
-              def inspect
-                #{base}.inspect
-              end
-              
-              def to_s
-                #{base}.to_s
-              end
-            
-            end
-          }
-          obj = "Distribunaut::Distributed::#{base}Proxy".constantize.instance 
-          raise Distribunaut::Distributed::Errors::ApplicationNameUndefined.new if configatron.distribunaut.app_name.nil?
-          Distribunaut::Utils::Rinda.register_or_renew(:space => "#{base}".to_sym, 
-                                                                    :object => obj,
-                                                                    :app_name => configatron.distribunaut.app_name)
+        base.class_eval do
+          include ::DRbUndumped
         end
+        c_name = base.name.gsub('::', '_')
+        eval %{
+          class ::Distribunaut::Distributed::#{c_name}Proxy
+            include Singleton
+            include DRbUndumped
+
+            def method_missing(sym, *args)
+              #{base}.send(sym, *args)
+            end
+            
+            def inspect
+              #{base}.inspect
+            end
+            
+            def to_s
+              #{base}.to_s
+            end
+          
+          end
+        }
+        obj = "Distribunaut::Distributed::#{c_name}Proxy".constantize.instance 
+        raise Distribunaut::Distributed::Errors::ApplicationNameUndefined.new if configatron.distribunaut.app_name.nil?
+        Distribunaut::Utils::Rinda.register_or_renew(:space => "#{base}".to_sym, 
+                                                                  :object => obj,
+                                                                  :app_name => configatron.distribunaut.app_name)
       end
       
   end # Distributable
