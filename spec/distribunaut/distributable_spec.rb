@@ -27,8 +27,6 @@ describe Distribunaut::Distributable do
       include Distribunaut::Distributable
     end
     Distribunaut::Distributed.should be_const_defined('DylanProxy')
-    Distribunaut::Distributed::DylanProxy.instance.should be_kind_of(::Singleton)
-    Distribunaut::Distributed::DylanProxy.instance.should be_kind_of(::DRbUndumped)
   end
   
   it 'should create proxy objects for modularize classes' do
@@ -39,8 +37,33 @@ describe Distribunaut::Distributable do
       end
     end
     Distribunaut::Distributed.should be_const_defined('Bob_DylanProxy')
-    Distribunaut::Distributed::Bob_DylanProxy.instance.should be_kind_of(::Singleton)
-    Distribunaut::Distributed::Bob_DylanProxy.instance.should be_kind_of(::DRbUndumped)
+  end
+  
+  it 'should pass calls from the proxy to the base object' do
+    class Axl
+      include Distribunaut::Distributable
+      
+      def inspect
+        "Sweet Child O'Mine"
+      end
+      
+      def yell
+        'YEAH!!!!'
+      end
+      
+      def self.find
+        [self.new, self.new]
+      end
+      
+    end
+    
+    axl_proxy = Distribunaut::Distributed::Axl.new
+    axl_proxy.inspect.should == "Sweet Child O'Mine"
+    axl_proxy.yell.should == 'YEAH!!!!'
+    
+    axls = Distribunaut::Distributed::Axl.find
+    axls.should be_kind_of(Array)
+    axls.size.should == 2
   end
   
 end
