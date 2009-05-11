@@ -13,7 +13,7 @@ require File.join(File.dirname(__FILE__), 'lib', 'distribunaut_tasks')
 
 @gem_spec = Gem::Specification.new do |s|
   s.name = "distribunaut"
-  s.version = "0.1.20090407"
+  s.version = "0.2"
   s.summary = "distribunaut"
   s.description = "distribunaut was developed by: markbates"
   s.author = "markbates"
@@ -58,8 +58,10 @@ end
 
 desc 'regenerate the gemspec'
 task :gemspec do
+  @gem_spec.version = "#{@gem_spec.version}.#{Time.now.strftime('%Y%m%d%H%M%S')}"
   File.open(File.join(File.dirname(__FILE__), 'distribunaut.gemspec'), 'w') {|f| f.puts @gem_spec.to_ruby}
 end
+
 
 desc "Install the gem"
 task :install => [:gemspec, :package] do |t|
