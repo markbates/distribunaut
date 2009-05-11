@@ -34,6 +34,16 @@ module Distribunaut
         tuple.object
       end
       
+      def self.available_services
+        ring_server = self.ring_server
+        all = ring_server.read_all([nil, nil, nil, nil])
+        services = []
+        all.each do |service|
+          services << Distribunaut::Tuple.from_array(service)
+        end
+        services
+      end
+      
       private
       def self.build_tuple(values = {})
         return values if values.is_a?(Distribunaut::Tuple)

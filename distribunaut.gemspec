@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["markbates"]
-  s.date = %q{2009-04-06}
+  s.date = %q{2009-05-11}
   s.default_executable = %q{distribunaut_ring_server}
   s.description = %q{distribunaut was developed by: markbates}
   s.email = %q{mark@mackframework.com}
@@ -24,20 +24,20 @@ Gem::Specification.new do |s|
     s.specification_version = 2
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<configatron>, [">= 0"])
-      s.add_runtime_dependency(%q<cachetastic>, [">= 0"])
-      s.add_runtime_dependency(%q<addressable>, [">= 0"])
-      s.add_runtime_dependency(%q<daemons>, [">= 0"])
+      s.add_runtime_dependency(%q<configatron>, [">= 2.3.0"])
+      s.add_runtime_dependency(%q<addressable>, [">= 2.0.0"])
+      s.add_runtime_dependency(%q<daemons>, [">= 1.0.10"])
+      s.add_runtime_dependency(%q<activesupport>, [">= 2.3.0"])
     else
-      s.add_dependency(%q<configatron>, [">= 0"])
-      s.add_dependency(%q<cachetastic>, [">= 0"])
-      s.add_dependency(%q<addressable>, [">= 0"])
-      s.add_dependency(%q<daemons>, [">= 0"])
+      s.add_dependency(%q<configatron>, [">= 2.3.0"])
+      s.add_dependency(%q<addressable>, [">= 2.0.0"])
+      s.add_dependency(%q<daemons>, [">= 1.0.10"])
+      s.add_dependency(%q<activesupport>, [">= 2.3.0"])
     end
   else
-    s.add_dependency(%q<configatron>, [">= 0"])
-    s.add_dependency(%q<cachetastic>, [">= 0"])
-    s.add_dependency(%q<addressable>, [">= 0"])
-    s.add_dependency(%q<daemons>, [">= 0"])
+    s.add_dependency(%q<configatron>, [">= 2.3.0"])
+    s.add_dependency(%q<addressable>, [">= 2.0.0"])
+    s.add_dependency(%q<daemons>, [">= 1.0.10"])
+    s.add_dependency(%q<activesupport>, [">= 2.3.0"])
   end
 end

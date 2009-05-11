@@ -22,23 +22,25 @@ module Distribunaut # :nodoc:
         end
         c_name = base.name.gsub('::', '_')
         eval %{
-          class ::Distribunaut::Distributed::#{c_name}Proxy < ActiveSupport::BasicObject
+          class ::Distribunaut::Distributed::#{c_name}Proxy
+            include Singleton
+            include DRbUndumped
 
             def method_missing(sym, *args)
               #{base}.send(sym, *args)
             end
+            
+            undef :id if method_defined?(:id)
+            undef :inspect if method_defined?(:inspect)
+            undef :to_s if method_defined?(:to_s)
           
           end
         }
-        const = "Distribunaut::Distributed::#{c_name}Proxy".constantize
-        const.class_eval do
-          include Singleton
-          include ::DRbUndumped
-        end
-        obj = const.instance 
+        obj = "Distribunaut::Distributed::#{c_name}Proxy".constantize.instance 
         raise Distribunaut::Distributed::Errors::ApplicationNameUndefined.new if configatron.distribunaut.app_name.nil?
         Distribunaut::Utils::Rinda.register_or_renew(:space => "#{base}".to_sym, 
                                                                   :object => obj,
+                                                                  :description => "#{base} Service",
                                                                   :app_name => configatron.distribunaut.app_name)
       end
       

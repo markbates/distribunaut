@@ -2,12 +2,6 @@ require File.join(File.dirname(__FILE__), "..", "..", "spec_helper")
 
 describe Distribunaut::Distributed do
   
-  before(:each) do
-  end
-  
-  after(:each) do
-  end
-  
   it "should recognize undefined constants and return it from rinda" do
     class Computer
       include Distribunaut::Distributable
@@ -15,7 +9,7 @@ describe Distribunaut::Distributed do
         "Intel"
       end
     end
-    Distribunaut::Distributed::Computer.should be ::Computer
+    Distribunaut::Distributed::Computer.new.should be_kind_of(::Computer)
     comp = Distribunaut::Distributed::Computer.new
     comp.processor.should == "Intel"
   end

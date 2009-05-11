@@ -8,6 +8,8 @@ module DRb # :nodoc:
     end
     
     undef :id if method_defined?(:id)
+    undef :kind_of? if method_defined?(:kind_of?)
+    undef :is_a? if method_defined?(:is_a?)
     
   end
 end

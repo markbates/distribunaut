@@ -19,12 +19,12 @@ namespace :distribunaut do
       
       desc "Lists all services on the ring server"
       task :list do
-        DRb.start_service
-        ring_server = Rinda::RingFinger.primary
-        services = ring_server.read_all([nil, nil, nil, nil])
-        puts "Services on #{ring_server.__drburi}"
+        require 'distribunaut'
+        puts "Services on #{Distribunaut::Utils::Rinda.ring_server.__drburi}"
+        services = Distribunaut::Utils::Rinda.available_services
         services.each do |service|
-          puts "#{service[0]}: #{service[1]} on #{service[2].__drburi} - #{service[3]}"
+          # puts "#{service[0]}: #{service[1]} on #{service[2].__drburi} - #{service[3]}"
+          puts "#{service.app_name}: #{service.space} on #{service.object.__drburi} - #{service.description}"
         end
       end
       

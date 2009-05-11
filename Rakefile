@@ -9,6 +9,7 @@ require 'rubygems'
 require 'rubygems/gem_runner'
 require 'spec'
 require 'spec/rake/spectask'
+require File.join(File.dirname(__FILE__), 'lib', 'distribunaut_tasks')
 
 @gem_spec = Gem::Specification.new do |s|
   s.name = "distribunaut"
