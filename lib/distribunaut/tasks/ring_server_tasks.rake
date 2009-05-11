@@ -12,6 +12,9 @@ namespace :distribunaut do
       `distribunaut_ring_server stop`
     end
     
+    desc "Restart the Rinda ring server"
+    task :restart => [:stop, :start]
+    
     namespace :services do
       
       desc "Lists all services on the ring server"
@@ -29,5 +32,3 @@ namespace :distribunaut do
     
   end # ring_server
 end # distribunaut
-
-alias_task "distribunaut:ring_server:restart", "distribunaut:ring_server:stop", "distribunaut:ring_server:start"
