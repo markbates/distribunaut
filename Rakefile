@@ -64,7 +64,7 @@ end
 
 
 desc "Install the gem"
-task :install => [:gemspec, :package] do |t|
+task :install => [:package] do |t|
   sudo = ENV['SUDOLESS'] == 'true' || RUBY_PLATFORM =~ /win32|cygwin/ ? '' : 'sudo'
   puts `#{sudo} gem install #{File.join("pkg", @gem_spec.name)}-#{@gem_spec.version}.gem --no-update-sources --no-ri --no-rdoc`
 end
