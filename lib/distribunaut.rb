@@ -8,7 +8,6 @@ require 'activesupport'
 
 base = File.join(File.dirname(__FILE__), 'distribunaut')
 
-configatron.distribunaut.set_default(:share_objects, false)
 configatron.distribunaut.set_default(:app_name, nil)
 configatron.distribunaut.set_default(:timeout, 0)
 
@@ -17,3 +16,6 @@ Dir.glob(File.join(base, "**", "*.rb")).each do |f|
   require(f)
 end
 
+# Make sure no one can call eval() and related 
+# methods remotely!
+$SAFE = 1 unless $SAFE > 0

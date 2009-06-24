@@ -41,7 +41,7 @@ module Distribunaut # :nodoc:
         Distribunaut::Utils::Rinda.register_or_renew(:space => "#{base}".to_sym, 
                                                                   :object => obj,
                                                                   :description => "#{base} Service",
-                                                                  :app_name => configatron.distribunaut.app_name)
+                                                                  :app_name => configatron.distribunaut.app_name.to_sym)
       end
       
   end # Distributable

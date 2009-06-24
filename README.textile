@@ -9,7 +9,6 @@ h3. Example #1
 require 'distribunaut'
 
 configatron.distribunaut.app_name = :user_app
-configatron.distribunaut.share_objects = true
 
 class User
   include Distribunaut::Distributable
