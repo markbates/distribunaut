@@ -2,13 +2,6 @@ require File.join(File.dirname(__FILE__), "..", "..", "spec_helper")
 
 describe Distribunaut::Utils::Rinda do
   
-  before(:each) do 
-    begin
-      rs.take([:testing, :String, nil, nil], 0)
-    rescue Exception => e
-    end
-  end
-  
   describe 'available_services' do
     
     it 'should return an Array of Distribunaut::Tuple objects for all the available services' do
@@ -67,6 +60,18 @@ describe Distribunaut::Utils::Rinda do
       serv.should_not be_nil
       serv.should == str2
       serv.should_not == str
+    end
+    
+  end
+  
+  describe 'remove_all_services!' do
+    
+    it 'should remove all services from the ring server' do
+      Distribunaut::Utils::Rinda.register_or_renew(:app_name => :testing, :space => :StringA, :object => 'A', :description => "AAA")
+      Distribunaut::Utils::Rinda.register_or_renew(:app_name => :testing, :space => :StringB, :object => 'B', :description => "BBB")
+      Distribunaut::Utils::Rinda.available_services.size.should be 2
+      Distribunaut::Utils::Rinda.remove_all_services!
+      Distribunaut::Utils::Rinda.available_services.should be_empty
     end
     
   end

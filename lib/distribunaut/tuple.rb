@@ -21,6 +21,10 @@ module Distribunaut # :nodoc:
       [self.app_name, self.space, nil, nil]
     end
     
+    def to_s
+      self.to_array.inspect
+    end
+    
     class << self
       
       def from_array(ar)

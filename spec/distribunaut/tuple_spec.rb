@@ -38,4 +38,17 @@ describe Distribunaut::Tuple do
     
   end
   
+  describe 'to_s' do
+    
+    it 'should print the inspect of the to_array method' do
+      tuple = Distribunaut::Tuple.new(:app_name => 'my app',
+                                      :space => 'my space',
+                                      :object => 'my object',
+                                      :description => 'my description',
+                                      :timeout => 3)
+      tuple.to_s.should == tuple.to_array.inspect
+    end
+    
+  end
+  
 end

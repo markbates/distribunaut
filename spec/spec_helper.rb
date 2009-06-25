@@ -25,7 +25,11 @@ Spec::Runner.configure do |config|
   end
   
   config.before(:each) do
-    
+    begin
+      Distribunaut::Utils::Rinda.remove_all_services!
+    rescue Exception => e
+      puts e.message
+    end
   end
   
   config.after(:each) do
