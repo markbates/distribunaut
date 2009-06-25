@@ -19,7 +19,7 @@ require File.join(File.dirname(__FILE__), 'lib', 'distribunaut_tasks')
   s.author = "markbates"
   s.email = "mark@mackframework.com"
   s.homepage = "http://www.mackframework.com"
-  s.files = FileList['lib/**/*.*', 'doc/**/*.*', 'bin/**/*.*']
+  s.files = FileList['lib/**/*.*', 'bin/**/*.*']
   s.require_paths = ['lib']
   # s.extra_rdoc_files = ["README"]
   s.has_rdoc = true
@@ -106,7 +106,7 @@ end
 Rake::RDocTask.new do |rd|
   rd.main = "README"
   files = Dir.glob("**/*.rb")
-  files = files.collect {|f| f unless f.match("test/") || f.match("doc/") }.compact
+  files = files.collect {|f| f unless f.match("spec/") || f.match("doc/") }.compact
   files << "README"
   rd.rdoc_files = files
   rd.rdoc_dir = "doc"
