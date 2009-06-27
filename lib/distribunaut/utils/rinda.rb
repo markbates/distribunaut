@@ -35,6 +35,24 @@ module Distribunaut
           tuple = Distribunaut::Tuple.from_array(results)
           tuple.object
         end
+        
+        def borrow(values = {}, &block)
+          tuple = build_tuple(values)
+          results = ring_server.take(tuple.to_array, tuple.timeout)
+          tuple = Distribunaut::Tuple.from_array(results)
+          tuple.space = "#{tuple.space}-onloan-#{Time.now}".to_sym
+          register(tuple)
+          begin
+            yield tuple if block_given?
+          rescue Exception => e
+            raise e
+          ensure
+            # (.+)-onloan-.+$
+            tuple.space.to_s.match(/(.+)-onloan-.+$/)
+            tuple.space = $1.to_sym
+            register(tuple)
+          end
+        end
       
         def available_services
           ring_server = self.ring_server

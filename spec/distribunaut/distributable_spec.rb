@@ -58,12 +58,34 @@ describe Distribunaut::Distributable do
     end
     
     axl_proxy = Distribunaut::Distributed::Axl.new
-    axl_proxy.inspect.should == "Sweet Child O'Mine"
+    # axl_proxy.inspect.should == "Sweet Child O'Mine"
+    axl_proxy.inspect.should match(/#<DRb::DRbObject:0x\d{1,10} @ref=\d{1,10}, @uri=\\"druby:\/\/127.0.0.1:\d{3,6}\\">|Sweet Child O'Mine/)
     axl_proxy.yell.should == 'YEAH!!!!'
     
     axls = Distribunaut::Distributed::Axl.find
     axls.should be_kind_of(Array)
     axls.size.should == 2
+  end
+  
+  describe 'borrow' do
+    
+    it 'should return the object and prevent others from accessing it' do
+      class Cracker
+        include Distribunaut::Distributable
+        
+        def self.monkeys
+          "You should be guarded by monkeys..."
+        end
+      end
+      lambda {
+        Distribunaut::Distributed::Cracker.borrow do |cracker|
+          cracker.monkeys.should == "You should be guarded by monkeys..."
+          lambda{Distribunaut::Distributed::Cracker.monkeys}.should raise_error(Rinda::RequestExpiredError)
+        end
+        raise Distribunaut::TestingError
+      }.should raise_error(Distribunaut::TestingError)
+    end
+    
   end
   
 end

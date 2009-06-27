@@ -8,15 +8,20 @@ require File.join(File.dirname(__FILE__), '..', 'lib', 'distribunaut')
 
 configatron.distribunaut.app_name = :test_app
 
+$test_ring_server_started = false
+
 Spec::Runner.configure do |config|
   
   config.before(:all) do
-    begin
-      DRb.start_service
-      Rinda::RingServer.new(Rinda::TupleSpace.new)
-    rescue Errno::EADDRINUSE => e
-      # it's fine to ignore this, it's expected that it's already running.
-      # all other exceptions should be thrown
+    unless $test_ring_server_started
+      begin
+        DRb.start_service
+        Rinda::RingServer.new(Rinda::TupleSpace.new)
+        $test_ring_server_started = true
+      rescue Exception => e
+        # it's fine to ignore this, it's expected that it's already running.
+        # all other exceptions should be thrown
+      end
     end
   end
   
@@ -47,4 +52,9 @@ class String
     return newpass.upcase
   end
   
+end
+
+module Distribunaut
+  class TestingError < StandardError
+  end
 end

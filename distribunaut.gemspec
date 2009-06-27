@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{distribunaut}
-  s.version = "0.2.1.20090624214017"
+  s.version = "0.2.2.20090626214209"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["markbates"]
-  s.date = %q{2009-06-24}
+  s.date = %q{2009-06-26}
   s.default_executable = %q{distribunaut_ring_server}
   s.description = %q{distribunaut was developed by: markbates}
   s.email = %q{mark@mackframework.com}

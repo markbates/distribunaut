@@ -24,6 +24,41 @@ describe Distribunaut::Utils::Rinda do
     
   end
   
+  describe 'borrow' do
+    
+    it 'should lock a tuple for the duration of the block and then return it back at the end' do
+      Distribunaut::Utils::Rinda.register_or_renew(:app_name => :testing, :space => :String, :object => 'A', :description => "AAA")
+      obj = Distribunaut::Utils::Rinda.read(:app_name => :testing, :space => :String)
+      obj.should_not be_nil
+      obj.should == 'A'
+      lambda do
+        Distribunaut::Utils::Rinda.borrow(:app_name => :testing, :space => :String) do |tuple|
+          tuple.object.should == 'A'
+          tuple.space.to_s.should match(/(.+)\-onloan\-.+$/)
+          lambda{Distribunaut::Utils::Rinda.read(:app_name => :testing, :space => :String)}.should raise_error(Rinda::RequestExpiredError)
+          raise Distribunaut::TestingError.new
+        end
+      end.should raise_error(Distribunaut::TestingError)
+      
+      obj = Distribunaut::Utils::Rinda.read(:app_name => :testing, :space => :String)
+      obj.should_not be_nil
+      obj.should == 'A'
+    end
+    
+  end
+  
+  describe 'read' do
+    
+    it 'should return a tuple from the ring server' do
+      Distribunaut::Utils::Rinda.register_or_renew(:app_name => :testing, :space => :String, :object => 'A', :description => "AAA")
+      obj = Distribunaut::Utils::Rinda.read(:app_name => :testing, :space => :String)
+      obj.should_not be_nil
+      obj.should == 'A'
+      lambda {Distribunaut::Utils::Rinda.read(:app_name => :testing, :space => :String2)}.should raise_error(Rinda::RequestExpiredError)
+    end
+    
+  end
+  
   describe 'register' do
     
     it "should be able to register new service" do
