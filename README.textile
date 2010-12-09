@@ -32,8 +32,6 @@ DRb.thread.join
 <pre>
   <code>
 
-# Saving: #<User:0x18ef764 @username="markbates">
-
 # 'Client' application
 require 'distribunaut'
 
@@ -51,7 +49,9 @@ user.username = 'markbates'
 
 puts user.inspect
 
-user.save
+user.save 
+
+# Saving: #<User:0x18ef764 @username="markbates">
 
 # hello!!!
 # hello!!!
@@ -60,3 +60,8 @@ user.save
 
    </code>
 </pre>
+
+h3. Contributors
+
+* Mark Bates
+* Josh Schairbaum

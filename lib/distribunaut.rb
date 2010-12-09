@@ -4,7 +4,8 @@ require 'drb/acl'
 require 'rinda/ring'
 require 'rinda/tuplespace'
 require 'addressable/uri'
-require 'activesupport'
+require 'active_support/i18n'
+require 'active_support/inflector'
 
 base = File.join(File.dirname(__FILE__), 'distribunaut')
 

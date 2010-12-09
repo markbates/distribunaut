@@ -1,112 +1,37 @@
-require 'rake'
-require 'rake/gempackagetask'
-require 'rake/clean'
-require 'rake/testtask'
-require 'rake/rdoctask'
-require 'find'
-require 'rubyforge'
 require 'rubygems'
-require 'rubygems/gem_runner'
-require 'rspec'
-require 'rspec/core/rake_task'
-require File.join(File.dirname(__FILE__), 'lib', 'distribunaut_tasks')
 
-@gem_spec = Gem::Specification.new do |s|
+# Set up gems listed in the Gemfile.
+gemfile = File.expand_path('../Gemfile', __FILE__)
+begin
+  ENV['BUNDLE_GEMFILE'] = gemfile
+  require 'bundler'
+  Bundler.setup
+rescue Bundler::GemNotFound => e
+  STDERR.puts e.message
+  STDERR.puts "Try running `bundle install`."
+  exit!
+end if File.exist?(gemfile)
+
+Bundler.require
+
+Gemstub.test_framework = :rspec
+
+Gemstub.gem_spec do |s|
   s.name = "distribunaut"
-  s.version = "0.2.2"
+  s.version = "0.3.0"
   s.summary = "distribunaut"
   s.description = "distribunaut was developed by: markbates"
   s.author = "markbates"
-  s.email = "mark@mackframework.com"
-  s.homepage = "http://www.mackframework.com"
-  s.files = FileList['lib/**/*.*', 'bin/**/*.*']
-  s.require_paths = ['lib']
-  # s.extra_rdoc_files = ["README"]
-  s.has_rdoc = true
-  s.rubyforge_project = "distribunaut"
+  s.email = "mark+github@markbates.com"
+  s.homepage = "http://www.metabates.com"
   s.add_dependency('configatron', '>=2.3.0')
   s.add_dependency('addressable', '>=2.0.0')
   s.add_dependency('daemons', '>=1.0.10')
-  s.add_dependency('activesupport', '>=2.3.0')
-  # s.test_files = FileList['spec/**/*']
-  #s.bindir = "bin"
+  s.add_dependency('activesupport', '>=3.0.3')
+  s.add_dependency('i18n')
   s.executables << "distribunaut_ring_server"
-  #s.add_dependency("", "")
-  #s.add_dependency("", "")
-  #s.extensions << ""
-  #s.required_ruby_version = ">= 1.8.6"
-  #s.default_executable = ""
-  #s.platform = "Gem::Platform::Ruby"
-  #s.requirements << "An ice cold beer."
-  #s.requirements << "Some free time!"
 end
 
-# rake package
-Rake::GemPackageTask.new(@gem_spec) do |pkg|
-  pkg.need_zip = false
-  pkg.need_tar = false
-  rm_f FileList['pkg/**/*.*']
-end
-
-# rake
-desc 'Run specifications'
-RSpec::Core::RakeTask.new(:default)
-
-desc 'regenerate the gemspec'
-task :gemspec do
-  @gem_spec.version = "#{@gem_spec.version}.#{Time.now.strftime('%Y%m%d%H%M%S')}"
-  File.open(File.join(File.dirname(__FILE__), 'distribunaut.gemspec'), 'w') {|f| f.puts @gem_spec.to_ruby}
-end
-
-
-desc "Install the gem"
-task :install => [:package] do |t|
-  sudo = ENV['SUDOLESS'] == 'true' || RUBY_PLATFORM =~ /win32|cygwin/ ? '' : 'sudo'
-  puts `#{sudo} gem install #{File.join("pkg", @gem_spec.name)}-#{@gem_spec.version}.gem --no-update-sources --no-ri --no-rdoc`
-end
-
-desc "Release the gem"
-task :release => :install do |t|
-  begin
-    ac_path = File.join(ENV["HOME"], ".rubyforge", "auto-config.yml")
-    if File.exists?(ac_path)
-      fixed = File.open(ac_path).read.gsub("  ~: {}\n\n", '')
-      fixed.gsub!(/    !ruby\/object:Gem::Version \? \n.+\n.+\n\n/, '')
-      puts "Fixing #{ac_path}..."
-      File.open(ac_path, "w") {|f| f.puts fixed}
-    end
-    begin
-      rf = RubyForge.new
-      rf.configure
-      rf.login
-      rf.add_release(@gem_spec.rubyforge_project, @gem_spec.name, @gem_spec.version, File.join("pkg", "#{@gem_spec.name}-#{@gem_spec.version}.gem"))
-    rescue Exception => e
-      if e.message.match("Invalid package_id") || e.message.match("no <package_id> configured for")
-        puts "You need to create the package!"
-        rf.create_package(@gem_spec.rubyforge_project, @gem_spec.name)
-        rf.add_release(@gem_spec.rubyforge_project, @gem_spec.name, @gem_spec.version, File.join("pkg", "#{@gem_spec.name}-#{@gem_spec.version}.gem"))
-      else
-        raise e
-      end
-    end
-  rescue Exception => e
-    if e.message == "You have already released this version."
-      puts e
-    else
-      raise e
-    end
-  end
-end
-
-
-Rake::RDocTask.new do |rd|
-  rd.main = "README"
-  files = Dir.glob("**/*.rb")
-  files = files.collect {|f| f unless f.match("spec/") || f.match("doc/") }.compact
-  files << "README"
-  rd.rdoc_files = files
-  rd.rdoc_dir = "doc"
-  rd.options << "--line-numbers"
-  rd.options << "--inline-source"
-  rd.title = "distribunaut"
+Gemstub.rdoc do |rd|
+  rd.title = 'DJ Remixes'
 end
