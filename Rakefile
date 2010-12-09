@@ -7,8 +7,8 @@ require 'find'
 require 'rubyforge'
 require 'rubygems'
 require 'rubygems/gem_runner'
-require 'spec'
-require 'spec/rake/spectask'
+require 'rspec'
+require 'rspec/core/rake_task'
 require File.join(File.dirname(__FILE__), 'lib', 'distribunaut_tasks')
 
 @gem_spec = Gem::Specification.new do |s|
@@ -50,11 +50,7 @@ end
 
 # rake
 desc 'Run specifications'
-Spec::Rake::SpecTask.new(:default) do |t|
-  opts = File.join(File.dirname(__FILE__), "spec", 'spec.opts')
-  t.spec_opts << '--options' << opts if File.exists?(opts)
-  t.spec_files = Dir.glob('spec/**/*_spec.rb')
-end
+RSpec::Core::RakeTask.new(:default)
 
 desc 'regenerate the gemspec'
 task :gemspec do
